@@ -25,14 +25,15 @@ def plrChoose(grid, whichOne, plr):
             y = int(usr[0])
             if grid[x][y] == " ":
                 grid[x][y] = "x"
-                if plr == '2':
-                    return False
-                else:
+                if plr == 1:
                     return None
+                else:
+                    return False
             else:
                 print("That spot is already taken!")
+                return True
         else:
-            print("Wrong imput. Try again!")
+            print("Wrong input. Try again!")
             return True
     if whichOne == False:
         usr = input("P2: Choose an empty spot(xy): ")
@@ -44,8 +45,9 @@ def plrChoose(grid, whichOne, plr):
                 return True
             else:
                 print("That spot is already taken!")
+                return False
         else: 
-            print("Wrong imput. Try again!")
+            print("Wrong input. Try again!")
             return False
     else:
         x = random.randint(1,3)
@@ -61,16 +63,16 @@ def checkGrid(grid):
     rotGrid = gridgen.rotateGrid(grid) # Preparing the rotated grid, to check on the vertical lines
     for j in range(ln):
         if grid[j].count("x") == ln-1:  # Here, the function checks the lines, first horizontal, then the vertical, each for both players
-            print("Player 1 wins! 1")
+            print("Player 1 wins!")
             return True
         elif grid[j].count("o") == ln-1:
-            print("Player 2 wins! 2")
+            print("Player 2 wins!")
             return True
         elif rotGrid[j].count("x") == ln-1:
-            print("Player 1 wins! 3")
+            print("Player 1 wins!")
             return True
         elif rotGrid[j].count("o") == ln-1:
-            print("Player 2 wins! 4" )
+            print("Player 2 wins!" )
             return True
     # Here the function is checking the diagonal-possibilities. Its ugly as hell, i know :<
     if grid[3][3] == 'x' and grid[1][1] == 'x' and grid[2][2] == 'x':
