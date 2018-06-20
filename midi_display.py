@@ -1,11 +1,15 @@
 import rtmidi
+import time
 
-# setup function is for choosing the correct midi port, for controling the launchpad
+# This default function is called to set a harmless midi_port.
+
 def default_setup():
     mo = rtmidi.MidiOut()
     midi_port = mo.open_port(0)
     return midi_port
-    
+
+# setup function is for choosing the correct midi port, for controling the launchpad
+
 def setup():
     mo = rtmidi.MidiOut()
     ports_list = mo.get_ports()
@@ -24,6 +28,7 @@ def setup():
 def clear(midi_port):
     midi_port.send_message([0x90, 176, 0, 0])
 
+# Main function for displaying the grid on the Launchpad 
 
 def showGrid(grid, midi_port):
     global core_list
@@ -55,7 +60,38 @@ def showGrid(grid, midi_port):
                 for val in final_list:
                     midi_port.send_message([0x90, val, 56])
 
+def game_over(grid, midi_port):
+    for i in range(1, len(grid)):
+        for j in range(1, len(grid)):
+            coordinate = (i - 1) * 48
+            coordinate += (j - 1) * 3
+            final_list = []
+            for val in core_list:
+                val += coordinate
+                final_list.append(val)
+            if grid[i][j] == 'x':
+                for val in final_list:
+                    midi_port.send_message([0x90, val, 11])
+            if grid[i][j] == 'o':
+                for val in final_list:
+                    midi_port.send_message([0x90, val, 56])
+    time.sleep(1)
+    for i in range(1, len(grid)):
+        for j in range(1, len(grid)):
+            coordinate = (i - 1) * 48
+            coordinate += (j - 1) * 3
+            final_list = []
+            for val in core_list:
+                val += coordinate
+                final_list.append(val)
+            if grid[i][j] == 'x':
+                for val in final_list:
+                    midi_port.send_message([0x90, val, 0])
+            if grid[i][j] == 'o':
+                for val in final_list:
+                    midi_port.send_message([0x90, val, 0])
 
+    time.sleep(1)
 
 core_list = [0,1,16,17]
 

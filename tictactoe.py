@@ -53,6 +53,8 @@ def launch_game(plr, port=midi_display.default_setup()):
         if gameOver == False:
             gameOver = userinput.movesLeft(newGrid)
     print("G A M E  O V E R")
+    for i in range(5):
+        midi_display.game_over(newGrid, port)
     midi_display.clear(port)
 
 if __name__ == "__main__":
