@@ -20,7 +20,7 @@ size = 4
 g = 1
 
 
-if plr == '2' or '1':
+if plr == '2' or plr == '1':
 
     newGrid = gridgen.getGrid(int(size))
     userinput.gridFill(newGrid, g, size,)

@@ -44,7 +44,9 @@ def plrChoose(grid, whichOne, plr):
                 return True
             else:
                 print("That spot is already taken!")
-        else: print("Wrong imput. Try again!")
+        else: 
+            print("Wrong imput. Try again!")
+            return False
     else:
         x = random.randint(1,3)
         y = random.randint(1,3)
