@@ -1,5 +1,6 @@
 import gridgen
 import userinput
+import midi_display
 
 # Imported modules are selfmade files with definitions of functions 
 # that are running the game
@@ -13,7 +14,7 @@ import userinput
 # the game is caled a draw, when all the possible moves are done
 plr = input("If you wana play with friend press 2. if you want to play with computer press 1. : ")
 
-
+port = midi_display.setup()
 gameOver = False
 player = True
 size = 4
@@ -25,6 +26,7 @@ if plr == '2' or plr == '1':
     newGrid = gridgen.getGrid(int(size))
     userinput.gridFill(newGrid, g, size,)
     gridgen.printGrid(newGrid)
+    midi_display.showGrid(newGrid, port)
     while not gameOver:
         player = userinput.plrChoose(newGrid, player,plr)
         gridgen.printGrid(newGrid)

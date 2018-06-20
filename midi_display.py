@@ -1,35 +1,40 @@
 import rtmidi
 
-mo = rtmidi.MidiOut()
-for port_no in range(mo.get_port_count()):
-    port_name = mo.get_port_name(port_no)
-    if port_name.find('Launchpad Mini') > -1:
-        mo.close_port()
-        midi_port = mo.open_port(port_no)
-        print("Using: ", port_name)
-        break
-    elif port_name.find('Launchpad Pro:Launchpad Pro MIDI 2') > -1:
-        mo.close_port()
-        midi_port = mo.open_port(port_no)
-        print("Using: ", port_name)
-        break
-        
-midi_port.send_message([0x90, 176, 0, 0])
+# setup function is for choosing the correct midi port, for controling the launchpad
 
-for i in range(2, 115,16):
-    midi_port.send_message([0x90, i, 29]) # 7 and 28 are position and color, taken from the docs
-
-for i in range(5, 118,16):
-    midi_port.send_message([0x90, i, 29])
-
-for i in range(32, 40):
-    midi_port.send_message([0x90, i, 29])
-
-for i in range(80, 88):
-    midi_port.send_message([0x90, i, 29])
+def setup():
+    mo = rtmidi.MidiOut()
+    for port_no in range(mo.get_port_count()):
+        port_name = mo.get_port_name(port_no)
+        if port_name.find('Launchpad Mini') > -1:
+            mo.close_port()
+            midi_port = mo.open_port(port_no)
+            print("Using: ", port_name)
+            return midi_port
+        elif port_name.find('Launchpad Pro:Launchpad Pro MIDI 2') > -1:
+            mo.close_port()
+            midi_port = mo.open_port(port_no)
+            print("Using: ", port_name)
+            return midi_port
+    
 
 
-while True:
+def showGrid(grid, midi_port):
+    midi_port.send_message([0x90, 176, 0, 0])
+    for i in range(2, 115,16):
+        midi_port.send_message([0x90, i, 29]) # 7 and 28 are position and color, taken from the docs
+
+    for i in range(5, 118,16):
+        midi_port.send_message([0x90, i, 29])
+
+    for i in range(32, 40):
+        midi_port.send_message([0x90, i, 29])
+
+    for i in range(80, 88):
+        midi_port.send_message([0x90, i, 29])
+
+
+""" while True:
     x = input("str ")
     if x == 'q':
         break
@@ -48,7 +53,7 @@ while True:
         midi_port.send_message([0x90, val, 11])
 
 midi_port.send_message([0x90, 176, 0, 0])
-
+ """
 
 
 # def showGrid(grid):
