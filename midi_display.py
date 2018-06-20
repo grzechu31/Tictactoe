@@ -1,26 +1,33 @@
 import rtmidi
 
 # setup function is for choosing the correct midi port, for controling the launchpad
-
+def default_setup():
+    mo = rtmidi.MidiOut()
+    midi_port = mo.open_port(0)
+    return midi_port
+    
 def setup():
     mo = rtmidi.MidiOut()
-    for port_no in range(mo.get_port_count()):
-        port_name = mo.get_port_name(port_no)
-        if port_name.find('Launchpad Mini') > -1:
-            mo.close_port()
-            midi_port = mo.open_port(port_no)
-            print("Using: ", port_name)
-            return midi_port
-        elif port_name.find('Launchpad Pro:Launchpad Pro MIDI 2') > -1:
-            mo.close_port()
-            midi_port = mo.open_port(port_no)
-            print("Using: ", port_name)
-            return midi_port
+    ports_list = mo.get_ports()
+    print("These are your midi ports:\n")
+    for port in ports_list:
+        print("{}: {}".format(ports_list.index(port), port))
+    print("\nYou should be looking for ports named 'Launchpad Pro' or 'Launchpad Mini'.")
+    port_no = input("Choose port number to use:")
+    while not port_no.isdigit() or not int(port_no) in range(len(ports_list)):
+        print("Wrong input, try again.")
+        port_no = input("Choose port number to use:")
+    midi_port = mo.open_port(int(port_no))
+    print("Opened port: ", port_no)
+    return midi_port
     
+def clear(midi_port):
+    midi_port.send_message([0x90, 176, 0, 0])
 
 
 def showGrid(grid, midi_port):
-    midi_port.send_message([0x90, 176, 0, 0])
+    global core_list
+    clear(midi_port)
     for i in range(2, 115,16):
         midi_port.send_message([0x90, i, 29]) # 7 and 28 are position and color, taken from the docs
 
@@ -33,6 +40,24 @@ def showGrid(grid, midi_port):
     for i in range(80, 88):
         midi_port.send_message([0x90, i, 29])
 
+    for i in range(1, len(grid)):
+        for j in range(1, len(grid)):
+            coordinate = (i - 1) * 48
+            coordinate += (j - 1) * 3
+            final_list = []
+            for val in core_list:
+                val += coordinate
+                final_list.append(val)
+            if grid[i][j] == 'x':
+                for val in final_list:
+                    midi_port.send_message([0x90, val, 11])
+            if grid[i][j] == 'o':
+                for val in final_list:
+                    midi_port.send_message([0x90, val, 56])
+
+
+
+core_list = [0,1,16,17]
 
 """ while True:
     x = input("str ")
