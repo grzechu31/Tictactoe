@@ -26,7 +26,7 @@ if plr == '2' or '1':
     userinput.gridFill(newGrid, g, size,)
     gridgen.printGrid(newGrid)
     while not gameOver:
-        player = userinput.plrChoose(newGrid, player,plr)
+        player = userinput.plrChoose(newGrid, player,plr,size)
         gridgen.printGrid(newGrid)
         if gameOver == False:
             gameOver = userinput.checkGrid(newGrid)

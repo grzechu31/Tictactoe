@@ -13,7 +13,7 @@ def gridFill(grid,g, size):
 
 
 
-def plrChoose(grid, whichOne, plr):
+def plrChoose(grid, whichOne, plr,size):
     if whichOne == True:
         usr = input("P1: Choose an empty spot(xy): ")
         if (usr.isdigit()== True 
@@ -46,11 +46,164 @@ def plrChoose(grid, whichOne, plr):
                 print("That spot is already taken!")
         else: print("Wrong imput. Try again!")
     else:
-        x = random.randint(1,3)
-        y = random.randint(1,3)
-        if grid[x][y] ==" ":
-            grid[x][y] = "o"
+        
+        #checking if theres an option to win this
+        ln = len(grid)
+        rotGrid = gridgen.rotateGrid(grid)
+
+
+        if grid[2][2]==' ':
+            grid[2][2] = 'o'
             return True
+        else:
+            #this is where the program checking the lines
+            j=1
+            i=1
+            while j!= size:  
+                if grid[j].count("o") == ln-2:
+                    while i!= size:
+                        if grid[j][i] == ' ':
+                            grid[j][i] = 'o'
+                            return True
+                        else:
+                            i=i+1
+                j=j+1
+                i=1
+            j=1
+            i=1
+
+            while j!=size:
+                if rotGrid[j].count("o") == ln-2:
+                    while i!=size:
+                        if rotGrid[j][i] == ' ':
+                            grid[i][j] = 'o'
+                            return True
+                        else:
+                            i=i+1
+                j=j+1
+                i=1
+
+            #this is whare he is checking crosses
+            #1st cross
+
+            cnt=0
+            i=1
+            j=1
+            while i!=size:
+                if grid[i][i]=='o':
+                    cnt=cnt+1
+                i=i+1
+            i=1
+            while i!=size:
+                if cnt==ln-2:
+                    while j!=size:
+                        if grid[j][j] == ' ':
+                            grid[j][j] = 'o'
+                            return True
+                        j=j+1
+                    i=1
+                i=i+1
+            #2nd cross
+
+            i=1
+            j=3
+            cnt=0
+            while i!=size:
+                if grid[i][j]== 'o':
+                    cnt=cnt+1
+                i=i+1
+                j=j-1
+            i=1
+            j=3
+            k=1
+            while i!=size:
+                if cnt==ln-2:
+                    while k!=size:
+                        if grid[i][j] == ' ':
+                            grid [i][j] = 'o'
+                            return True
+                        i=i+1
+                        j=j-1
+                        k=k+1
+                i=i+1
+
+
+            # now check if P1 can win
+            #this is where the program chcecking the lines
+            j=1
+            i=1
+            while j!= size:
+
+                if grid[j].count("x") == ln-2:
+                    while i!= size:
+                        if grid[j][i] == ' ':
+                            grid[j][i] = 'o'
+                            return True
+                        i=i+1
+                j=j+1
+                i=1
+            j=1
+            i=1
+
+            while j!=size:
+                if rotGrid[j].count("x") == ln-2:
+                    while i!=size:
+                        if rotGrid[j][i] == ' ':
+                            grid[i][j] = 'o'
+                            return True
+                        i=i+1
+                j=j+1
+                i=1
+            #there the program is looking for crosses
+            #1st cross
+            cnt=0
+            i=1
+            j=1
+            while i!=size:
+                if grid[i][i]=='x':
+                    cnt=cnt+1
+                i=i+1
+            i=1
+            while i!=size:
+                if cnt==ln-2:
+                    while j!=size:
+                        if grid[j][j] == ' ':
+                            grid[j][j] = 'o'
+                            return True
+                        j=j+1
+                    i=1
+                i=i+1
+            #2nd cross
+            i=1
+            j=3
+            cnt=0
+            while i!=size:
+                if grid[i][j]== 'x':
+                    cnt=cnt+1
+                i=i+1
+                j=j-1
+            i=1
+            j=3
+            k=1
+            while i!=size:
+                if cnt==ln-2:
+                    while k!=size:
+                        if grid[i][j] == ' ':
+                            grid [i][j] = 'o'
+                            return True
+                        i=i+1
+                        j=j-1
+                        k=k+1
+                i=i+1
+
+
+
+            #if theres no other option just take random coordynates
+            x = random.randint(1,3)
+            y = random.randint(1,3)
+            if grid[x][y] ==" ":
+                grid[x][y] = "o"
+                return True
 
 # Function that checks grid for a winner
 
