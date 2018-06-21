@@ -69,7 +69,7 @@ def launchpad_pro(grid, midi_port_list):
     core_list = [81,82,91,92]
     midi_port = midi_port_list[0]
 
-    for i in range(83, 12, -10):
+    for i in range(83, 14, -10):
         midi_port.send_message([240,0,32,41,2,16,10,i, 3, 247])
     for i in range(61, 69):
         midi_port.send_message([240,0,32,41,2,16,10,i, 3, 247])
@@ -88,10 +88,10 @@ def launchpad_pro(grid, midi_port_list):
                 final_list.append(val)
             if grid[i][j] == 'x':
                 for val in final_list:
-                    midi_port.send_message([240,0,32,41,2,16,10,i, 72, 247])
+                    midi_port.send_message([240,0,32,41,2,16,10,val, 72, 247])
             if grid[i][j] == 'o':
                 for val in final_list:
-                    midi_port.send_message([240,0,32,41,2,16,10,i, 67, 247])
+                    midi_port.send_message([240,0,32,41,2,16,10,val, 67, 247])
 
 def showGrid(grid, midi_port_list):
     clear(midi_port_list)
