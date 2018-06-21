@@ -80,8 +80,8 @@ def launchpad_pro(grid, midi_port_list):
 
     for i in range(1, len(grid)):
         for j in range(1, len(grid)):
-            coordinate = (i - 1) * 30
-            coordinate += (j - 1) * 3
+            coordinate = (i) * 30
+            coordinate += (j) * 3
             final_list = []
             for val in core_list:
                 val -= coordinate
