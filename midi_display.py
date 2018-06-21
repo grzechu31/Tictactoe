@@ -69,19 +69,19 @@ def launchpad_pro(grid, midi_port_list):
     core_list = [81,82,91,92]
     midi_port = midi_port_list[0]
 
-    for i in range(83, 14, -10):
+    for i in range(83, 12, -10):
         midi_port.send_message([240,0,32,41,2,16,10,i, 3, 247])
     for i in range(61, 69):
         midi_port.send_message([240,0,32,41,2,16,10,i, 3, 247])
-    for i in range(86, 17, -10):
+    for i in range(86, 15, -10):
         midi_port.send_message([240,0,32,41,2,16,10,i, 3, 247])
     for i in range(31, 39):
         midi_port.send_message([240,0,32,41,2,16,10,i, 3, 247])
 
-    for i in range(1, len(grid)):
-        for j in range(1, len(grid)):
-            coordinate = (i) * 30
-            coordinate += (j) * 3
+    for i in range(len(grid)):
+        for j in range(len(grid)):
+            coordinate = (i -1) * 30
+            coordinate += (j - 1) * 3
             final_list = []
             for val in core_list:
                 val -= coordinate
