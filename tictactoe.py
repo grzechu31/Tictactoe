@@ -13,7 +13,7 @@ import midi_display
 # time is a variable that keeps track of used moves
 # the game is caled a draw, when all the possible moves are done
 
-def main(port=midi_display.default_setup()):
+def main(midi_port_list=midi_display.default_setup()):
     print("Welcome to TicTacToe in python!")
     print("Choose an option:\n")
     print("1. Player vs A.I.")
@@ -28,12 +28,12 @@ def main(port=midi_display.default_setup()):
     if choice == 4:
         pass
     elif choice == 3:
-        port = midi_display.setup()
-        main(port)
+        port_list = midi_display.setup()
+        main(port_list)
     else:
-        launch_game(choice, port)
+        launch_game(choice, midi_port_list)
 
-def launch_game(plr, port=midi_display.default_setup()):
+def launch_game(plr, port_list=midi_display.default_setup()):
     gameOver = False
     player = True
     size = 4
@@ -43,19 +43,19 @@ def launch_game(plr, port=midi_display.default_setup()):
     newGrid = gridgen.getGrid(int(size))
     userinput.gridFill(newGrid, g, size,)
     gridgen.printGrid(newGrid)
-    midi_display.showGrid(newGrid, port)
+    midi_display.showGrid(newGrid, port_list)
     while not gameOver:
         player = userinput.plrChoose(newGrid, player,plr)
         gridgen.printGrid(newGrid)
-        midi_display.showGrid(newGrid, port)
+        midi_display.showGrid(newGrid, port_list)
         if gameOver == False:
             gameOver = userinput.checkGrid(newGrid)
         if gameOver == False:
             gameOver = userinput.movesLeft(newGrid)
     print("G A M E  O V E R")
     for i in range(5):
-        midi_display.game_over(newGrid, port)
-    midi_display.clear(port)
+        midi_display.game_over(newGrid, port_list)
+    midi_display.clear(port_list)
 
 if __name__ == "__main__":
     main()
