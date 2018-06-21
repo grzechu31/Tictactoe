@@ -2,6 +2,6 @@
 /bin
 /include
 /lib
-midi_test.py
 grz.py
 pip-selfcheck.json
+midi_test.py
