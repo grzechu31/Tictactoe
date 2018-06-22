@@ -102,36 +102,39 @@ def showGrid(grid, midi_port_list):
         launchpad_pro(grid, midi_port_list)  
 
 def game_over(grid, midi_port_list):
-    core_list = [0,1,16,17]
     midi_port = midi_port_list[0]
-    for i in range(1, len(grid)):
-        for j in range(1, len(grid)):
-            coordinate = (i - 1) * 48
-            coordinate += (j - 1) * 3
-            final_list = []
-            for val in core_list:
-                val += coordinate
-                final_list.append(val)
-            if grid[i][j] == 'x':
-                for val in final_list:
-                    midi_port.send_message([0x90, val, 11])
-            if grid[i][j] == 'o':
-                for val in final_list:
-                    midi_port.send_message([0x90, val, 56])
-    time.sleep(1)
-    for i in range(1, len(grid)):
-        for j in range(1, len(grid)):
-            coordinate = (i - 1) * 48
-            coordinate += (j - 1) * 3
-            final_list = []
-            for val in core_list:
-                val += coordinate
-                final_list.append(val)
-            if grid[i][j] == 'x':
-                for val in final_list:
-                    midi_port.send_message([0x90, val, 0])
-            if grid[i][j] == 'o':
-                for val in final_list:
-                    midi_port.send_message([0x90, val, 0])
+    port_name = midi_port_list[0].get_port_name(midi_port_list[1])
+    if port_name.find("Launchpad Mini") > -1:
+        core_list = [0,1,16,17]
+        midi_port = midi_port_list[0]
+        for i in range(1, len(grid)):
+            for j in range(1, len(grid)):
+                coordinate = (i - 1) * 48
+                coordinate += (j - 1) * 3
+                final_list = []
+                for val in core_list:
+                    val += coordinate
+                    final_list.append(val)
+                if grid[i][j] == 'x':
+                    for val in final_list:
+                        midi_port.send_message([0x90, val, 11])
+                if grid[i][j] == 'o':
+                    for val in final_list:
+                        midi_port.send_message([0x90, val, 56])
+        time.sleep(1)
+        for i in range(1, len(grid)):
+            for j in range(1, len(grid)):
+                coordinate = (i - 1) * 48
+                coordinate += (j - 1) * 3
+                final_list = []
+                for val in core_list:
+                    val += coordinate
+                    final_list.append(val)
+                if grid[i][j] == 'x':
+                    for val in final_list:
+                        midi_port.send_message([0x90, val, 0])
+                if grid[i][j] == 'o':
+                    for val in final_list:
+                        midi_port.send_message([0x90, val, 0])
 
-    time.sleep(1)
+        time.sleep(1)
