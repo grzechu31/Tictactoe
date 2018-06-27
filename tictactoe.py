@@ -56,6 +56,7 @@ def launch_game(plr, port_list=midi_display.default_setup()):
     for i in range(5):
         midi_display.game_over(newGrid, port_list)
     midi_display.clear(port_list)
+    main(port_list)
 
 if __name__ == "__main__":
     main()

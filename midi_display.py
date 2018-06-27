@@ -136,5 +136,6 @@ def game_over(grid, midi_port_list):
                 if grid[i][j] == 'o':
                     for val in final_list:
                         midi_port.send_message([0x90, val, 0])
-
         time.sleep(1)
+    else:
+        time.sleep(0.5)
