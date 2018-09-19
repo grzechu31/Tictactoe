@@ -26,10 +26,10 @@ def printGrid(grid):
 # (so horizontal lines are vertical)
 
 def rotateGrid(grid):
-    grid2 = getGrid(len(grid))
+    rotated_grid = getGrid(len(grid))
 
-    for i in range(len(grid2)):
-        for j in range(len(grid2[i])):
-            grid2[i][j] = grid[j][i]
+    for i in range(len(rotated_grid)):
+        for j in range(len(rotated_grid[i])):
+            rotated_grid[i][j] = grid[j][i]
 
-    return grid2
+    return rotated_grid
