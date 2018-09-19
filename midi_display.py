@@ -8,22 +8,31 @@ def default_setup():
     midi_port = mo.open_port(0)
     return (midi_port, 0)
 
-# setup function is for choosing the correct midi port, for controling the launchpad
+# setup function is for choosing the correct midi port, for controlling the launchpad
 
 def setup():
     mo = rtmidi.MidiOut()
     ports_list = mo.get_ports()
     print("These are your midi ports:\n")
-    for port in ports_list:
-        print("{}: {}".format(ports_list.index(port), port))
+    for i, port in enumerate(ports_list):
+        print("{}: {}".format(i, port))
     print("\nYou should be looking for ports named 'Launchpad Pro' or 'Launchpad Mini'.")
-    port_no = input("Choose port number to use:")
-    while not port_no.isdigit() or not int(port_no) in range(len(ports_list)):
-        print("Wrong input, try again.")
-        port_no = input("Choose port number to use:")
-    midi_port = mo.open_port(int(port_no))
-    print("Opened port: ", port_no)
-    return (midi_port, int(port_no))
+    correct = False
+
+    while not correct:
+        try:
+            port_no = input("Choose port number to use:")
+            port_no = int(port_no)
+            assert port_no in range(len(ports_list))
+            correct = True
+        except AssertionError:
+            print("No ports by that number. Try again.")
+        except ValueError:
+            print("Chose a number.")
+
+    midi_port = mo.open_port(port_no)
+    print("Opened port: ", ports_list[port_no])
+    return (midi_port, port_no)
 
     
 def clear(midi_port_list):
@@ -39,7 +48,7 @@ def launchpad_mini(grid, midi_port_list):
     midi_port = midi_port_list[0]
     core_list = [0,1,16,17]
     for i in range(2, 115,16):
-        midi_port.send_message([0x90, i, 29]) # 7 and 28 are position and color, taken from the docs
+        midi_port.send_message([0x90, i, 29])
 
     for i in range(5, 118,16):
         midi_port.send_message([0x90, i, 29])
@@ -103,7 +112,7 @@ def showGrid(grid, midi_port_list):
 
 def game_over(grid, midi_port_list):
     midi_port = midi_port_list[0]
-    port_name = midi_port_list[0].get_port_name(midi_port_list[1])
+    port_name = midi_port.get_port_name(midi_port_list[1])
     if port_name.find("Launchpad Mini") > -1:
         core_list = [0,1,16,17]
         midi_port = midi_port_list[0]

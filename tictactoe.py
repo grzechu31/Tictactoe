@@ -20,7 +20,7 @@ def main(midi_port_list=midi_display.default_setup()):
     print("2. Player vs Player")
     print("3. Midi setup\n")
     print("4. Quit\n")
-    choice = input(">>")
+    choice = input(">> ")
     while not choice.isdigit() or not int(choice) in range(1,5):
         print("Wrong input, try again.")
         choice = input(">>")
