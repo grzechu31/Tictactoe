@@ -116,6 +116,24 @@ def game_over(grid, midi_port_list):
     if port_name.find("Launchpad Mini") > -1:
         core_list = [0,1,16,17]
         midi_port = midi_port_list[0]
+
+        for i in range(1, len(grid)):
+            for j in range(1, len(grid)):
+                coordinate = (i - 1) * 48
+                coordinate += (j - 1) * 3
+                final_list = []
+                for val in core_list:
+                    val += coordinate
+                    final_list.append(val)
+                if grid[i][j] == 'x':
+                    for val in final_list:
+                        midi_port.send_message([0x90, val, 0])
+                if grid[i][j] == 'o':
+                    for val in final_list:
+                        midi_port.send_message([0x90, val, 0])
+
+        time.sleep(1)
+
         for i in range(1, len(grid)):
             for j in range(1, len(grid)):
                 coordinate = (i - 1) * 48
@@ -130,25 +148,30 @@ def game_over(grid, midi_port_list):
                 if grid[i][j] == 'o':
                     for val in final_list:
                         midi_port.send_message([0x90, val, 56])
+
         time.sleep(1)
-        for i in range(1, len(grid)):
-            for j in range(1, len(grid)):
-                coordinate = (i - 1) * 48
-                coordinate += (j - 1) * 3
-                final_list = []
-                for val in core_list:
-                    val += coordinate
-                    final_list.append(val)
-                if grid[i][j] == 'x':
-                    for val in final_list:
-                        midi_port.send_message([0x90, val, 0])
-                if grid[i][j] == 'o':
-                    for val in final_list:
-                        midi_port.send_message([0x90, val, 0])
-        time.sleep(1)
+
     elif port_name.find("Launchpad Pro") > -1:
         core_list = [71, 72, 81, 82]
         midi_port = midi_port_list[0]
+
+        for i in range(len(grid)):
+            for j in range(len(grid)):
+                coordinate = (i - 1) * 30
+                coordinate -= (j - 1) * 3
+                final_list = []
+                for val in core_list:
+                    val -= coordinate
+                    final_list.append(val)
+                if grid[i][j] == 'x':
+                    for val in final_list:
+                        midi_port.send_message([240, 0, 32, 41, 2, 16, 10, val, 0, 247])
+                if grid[i][j] == 'o':
+                    for val in final_list:
+                        midi_port.send_message([240, 0, 32, 41, 2, 16, 10, val, 0, 247])
+
+        time.sleep(1)
+
         for i in range(len(grid)):
             for j in range(len(grid)):
                 coordinate = (i - 1) * 30
@@ -163,21 +186,6 @@ def game_over(grid, midi_port_list):
                 if grid[i][j] == 'o':
                     for val in final_list:
                         midi_port.send_message([240, 0, 32, 41, 2, 16, 10, val, 67, 247])
-        time.sleep(1)
-        for i in range(len(grid)):
-            for j in range(len(grid)):
-                coordinate = (i - 1) * 30
-                coordinate -= (j - 1) * 3
-                final_list = []
-                for val in core_list:
-                    val -= coordinate
-                    final_list.append(val)
-                if grid[i][j] == 'x':
-                    for val in final_list:
-                        midi_port.send_message([240, 0, 32, 41, 2, 16, 10, val, 0, 247])
-                if grid[i][j] == 'o':
-                    for val in final_list:
-                        midi_port.send_message([240, 0, 32, 41, 2, 16, 10, val, 0, 247])
 
     else:
         time.sleep(0.5)
