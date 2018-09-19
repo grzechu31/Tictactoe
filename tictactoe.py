@@ -10,7 +10,6 @@ import midi_display
 # player is a boolean that represents which player should move now: True is P1 and False is P2
 # (by deafaut P1 starts)
 # size is value of the side of the grid
-# time is a variable that keeps track of used moves
 # the game is caled a draw, when all the possible moves are done
 
 def main(midi_port_list=midi_display.default_setup()):
@@ -26,6 +25,7 @@ def main(midi_port_list=midi_display.default_setup()):
         choice = input(">>")
     choice = int(choice)
     if choice == 4:
+        midi_display.clear(midi_port_list)
         pass
     elif choice == 3:
         port_list = midi_display.setup()
@@ -55,7 +55,6 @@ def launch_game(plr, port_list=midi_display.default_setup()):
     print("G A M E  O V E R")
     for i in range(3):
         midi_display.game_over(newGrid, port_list)
-    # midi_display.clear(port_list)
     main(port_list)
 
 if __name__ == "__main__":
